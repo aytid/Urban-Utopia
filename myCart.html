@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Cart</title>
@@ -6,34 +7,26 @@
 </head>
 <body>
     <nav>
-        <img src="uu-png.png">
+        <img src="uu-png.png" onclick="window.location.href='src.html'">
         <button onclick="window.location.href='src.html'">Home</button>
         <button>Offers</button>
-        <button style=" background-color: rgb(44, 236, 172);border-radius: 40px;">Cart</button>
-        <button style="background-image: url('cartCount.png');background-size: contain;background-repeat: no-repeat;height: 40px;width: 40px;margin-top: 25px;margin-left: 30px;"></button>
+        <button style="background-color: rgb(44, 236, 172); border-radius: 40px;">Cart</button>
         <button style="background-color: transparent;" id="counter" name="counter">0</button>
         <button onclick="clr()">Clear cart</button>
-        
         <img class="user" id="chi" onclick="window.location.href='home.html'" src="user2.png">
     </nav>
-
-    <div>
-        <h2 id="greeting"></h2>
-    </div>
 
     <div class="c" id="c">
     </div>
 
+    <div class="j">
+        <button id="worth">Cart value: ₹ 0</button>
+    </div>
+
     <script>
-        var userid;  // Declare userid globally
+        var userid;
 
-        document.addEventListener("DOMContentLoaded", function () {
-            username=sessionStorage.getItem('username');
-            userid = sessionStorage.getItem('userid');
-            document.getElementById("greeting").innerHTML = "Hi, " + username + "!";
-            show();
-        });
-
+        // Function to display items in the cart
         function show() {
             var container = document.getElementById("c");
             container.innerHTML = "";  // Clear existing content
@@ -47,19 +40,20 @@
             });
 
             updateCounter();
-            worthVarma();
+            updateWorth();
         }
 
+        // Function to create HTML elements for each item in the cart
         function create(item, index) {
             var div = document.createElement("div");
             div.className = "i";
 
-            var itemId = index;
+            var itemId = index; // Use index as itemId for simplicity
             div.id = "item_" + itemId;
 
             var namam = document.createElement("h3");
             namam.innerHTML = "<br>" + item.name;
-            namam.style = "font-size:25px;font-weight:800;text-align:center;padding-top:-10px";
+            namam.style = "font-size: 25px; font-weight: 800; text-align: center; padding-top: -10px;";
 
             var price = document.createElement("h3");
             price.id = "p_" + itemId;
@@ -70,21 +64,21 @@
 
             var minus = document.createElement("button");
             minus.innerHTML = "-";
-            minus.style = "width: 75px";
+            minus.style = "width: 75px;";
             minus.onclick = function () {
                 dec(itemId);
-            }
+            };
 
             var ql = document.createElement("label");
             ql.innerHTML = "Quantity: ";
 
             var quantity = document.createElement("span");
             quantity.id = "countQt_" + itemId;
-            quantity.innerHTML = parseInt(item.quantity);
+            quantity.innerHTML = item.quantity;
 
             var plus = document.createElement("button");
             plus.innerHTML = "+";
-            plus.style = "width: 75px";
+            plus.style = "width: 75px;";
             plus.onclick = function () {
                 inc(itemId);
             };
@@ -115,10 +109,10 @@
             div.appendChild(image);
             div.appendChild(namam);
             div.appendChild(price);
-            cc.append(minus);
-            cc.append(ql);
-            cc.append(quantity);
-            cc.append(plus);
+            cc.appendChild(minus);
+            cc.appendChild(ql);
+            cc.appendChild(quantity);
+            cc.appendChild(plus);
             div.appendChild(cc);
             div.appendChild(remove);
             div.appendChild(buyButton);
@@ -126,6 +120,7 @@
             return div;
         }
 
+        // Function to remove an item from the cart
         function removeItem(index) {
             var items = JSON.parse(localStorage.getItem("cart")) || [];
             items.splice(index, 1);
@@ -133,6 +128,7 @@
             show();
         }
 
+        // Function to update the item count in the cart icon
         function updateCounter() {
             var items = JSON.parse(localStorage.getItem("cart")) || [];
             var totalQuantity = 0;
@@ -146,6 +142,7 @@
             document.getElementById("counter").innerHTML = totalQuantity;
         }
 
+        // Function to clear the cart
         function clr() {
             var items = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -153,64 +150,54 @@
 
             localStorage.setItem("cart", JSON.stringify(filteredItems));
 
-            updateCounter();
             show();
-            worthVarma();
+            updateCounter();
+            updateWorth();
         }
 
+        // Function to increase quantity of an item in the cart
         function inc(itemId) {
-            var quantityElement = document.getElementById("countQt_" + itemId);
-            var currentQuantity = parseInt(quantityElement.innerHTML);
+            var items = JSON.parse(localStorage.getItem("cart")) || [];
+            items[itemId].quantity++;
+            localStorage.setItem("cart", JSON.stringify(items));
 
-            if (currentQuantity >= 0) {
-                var items = JSON.parse(localStorage.getItem("cart")) || [];
-                items[itemId].quantity = currentQuantity + 1;
+            show();
+            updateCounter();
+            updateWorth();
+        }
+
+        // Function to decrease quantity of an item in the cart
+        function dec(itemId) {
+            var items = JSON.parse(localStorage.getItem("cart")) || [];
+            if (items[itemId].quantity > 0) {
+                items[itemId].quantity--;
                 localStorage.setItem("cart", JSON.stringify(items));
 
-                quantityElement.innerHTML = currentQuantity + 1;
-
+                show();
                 updateCounter();
-                worthVarma();
+                updateWorth();
             }
         }
 
-        function dec(itemId) {
-            var quantityElement = document.getElementById("countQt_" + itemId);
-            var currentQuantity = parseInt(quantityElement.innerHTML);
-
-            if (currentQuantity > 0) {
-                var items = JSON.parse(localStorage.getItem("cart")) || [];
-
-                // Check if the item with the given itemId exists in the items array
-                if (items[itemId]) {
-                    items[itemId].quantity = currentQuantity - 1;
-                    localStorage.setItem("cart", JSON.stringify(items));
-
-                    quantityElement.innerHTML = currentQuantity - 1;
-
-                    updateCounter();
-                    worthVarma();
-                } else {
-                    console.error("Item with itemId " + itemId + " not found.");
-                }
-            }
-        }
-
-        function worthVarma() {
-            var worth = 0;
+        // Function to update the total worth of items in the cart
+        function updateWorth() {
             var items = JSON.parse(localStorage.getItem("cart")) || [];
+            var totalWorth = 0;
 
-            items.forEach(function (item) {
+            items.forEach(item => {
                 if (item.userid === userid) {
-                    worth += item.quantity * item.price;
+                    totalWorth += item.quantity * item.price;
                 }
             });
 
-            document.getElementById("worth").innerHTML = "₹ " + worth;
+            document.getElementById("worth").innerHTML = "Cart value: ₹ " + totalWorth;
         }
+
+        // Retrieve userid and show initial cart contents
+        document.addEventListener("DOMContentLoaded", function () {
+            userid = sessionStorage.getItem('userid');
+            show();
+        });
     </script>
-    <div class="j">
-        <button id="worth">Cart value: ₹ 0</button>
-    </div>
 </body>
 </html>

@@ -11,8 +11,7 @@
         <button style="background-color: rgb(44, 236, 172); border-radius: 40px;">Home</button>
         <button>Offers</button>
         <button onclick="showCart()">My Cart</button>
-        <button style="background-image: url('cartCount.png'); background-size: contain; background-repeat: no-repeat; height: 40px; width: 40px; margin-top: 10px; margin-left: 30px;"></button>
-        <button style="background-color: transparent;" id="counter" name="counter">0</button>
+        <button style="background-color: transparent;" id="counterBtn">0</button> <!-- Updated ID -->
         <button style="width: 130px;" onclick="addItem()">Add item</button>
         <img style="height: 50px; width: 50px;" onclick="window.location.href='home.html'" src="user2.png">
     </nav>
@@ -206,9 +205,7 @@
                 }
             });
 
-            document.getElementById("c").innerHTML = "";
-            document.getElementById("counter").innerHTML = totalQuantity;
-            show();
+            document.getElementById("counterBtn").innerHTML = totalQuantity;
         }
     </script>
 </body>

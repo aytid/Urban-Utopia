@@ -56,7 +56,6 @@ h2{
 }
 
 .i {
-    background-color: transparent;
     border: 0.5px solid rgb(137, 124, 99);
     border-radius: 20px;
     height: auto;
@@ -82,7 +81,7 @@ h2{
 
 .i h3 {
         text-align: center;
-        background-color: lightseagreen;
+        /* background-color: lightseagreen; */
         border: none;
         margin: 5px 0; 
 }
@@ -115,12 +114,6 @@ h2{
 
 @media only screen and (max-width: 290px) {
 
-
-    .i {
-        background-color: lightcoral;
-        color: black;
-    }
-
     nav {
     }
     nav img{
@@ -134,11 +127,6 @@ h2{
         grid-template-columns: repeat(2, 1fr);
     }
 
-    .i {
-        background-color: lightcoral;
-        color: black;
-    }
-
     nav {
         width: 150%;
     }
@@ -147,11 +135,6 @@ h2{
 @media only screen and (min-width: 500px) {
     .c {
         grid-template-columns: repeat(3, 1fr);
-    }
-
-    .i {
-        background-color: transparent;
-        color: black;
     }
 
     nav {
@@ -166,10 +149,6 @@ h2{
         grid-template-columns: repeat(3, 1fr);
     }
 
-    .i {
-        background-color: lightcoral;
-        color: black;
-    }
 
     nav {
         width: 130%;
@@ -181,12 +160,6 @@ h2{
 @media only screen and (min-width: 920px) {
     .c {
         grid-template-columns: repeat(4, 1fr);
-    }
-
-    .i {
-        background-color: transparent;
-        color: black;
-        width: max-content;
     }
 
     nav {
@@ -201,12 +174,6 @@ h2{
 @media only screen and (min-width: 1300px) {
     .c {
         grid-template-columns: repeat(5, 1fr);
-    }
-
-    .i {
-        background-color: lightcoral;
-        color: black;
-        width: max-content;
     }
 
     nav {
