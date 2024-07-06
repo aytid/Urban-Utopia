@@ -1,3 +1,4 @@
+/* Global styles */
 * {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     box-sizing: border-box;
@@ -8,13 +9,14 @@ body {
     margin: 0;
 }
 
+/* Navigation styles */
 nav {
     display: flex;
-    justify-content: center; 
+    justify-content: center; /* Adjusted for center alignment */
     align-items: center;
     background-color: rgb(127, 255, 212);
-    padding: 20px 20px 20px 30px;
-    width: 100%; 
+    padding: 20px 20px 20px 30px; /* Adjusted padding for better spacing */
+    width: 100%; /* Ensure nav spans full width */
 }
 
 nav img {
@@ -27,11 +29,11 @@ nav img:hover {
 }
 
 nav button {
-    width: 100px;
+    width: 80px;
     padding: 10px;
     font-size: 20px;
     font-weight: 700;
-    margin: 10px 5px 10px 15px;
+    margin: 10px 5px 10px 15px; /* Adjusted margins for spacing */
     border: none;
     transition: transform 0.2s ease-in-out;
     background-color: rgb(127, 255, 212);
@@ -48,11 +50,17 @@ nav .user {
     margin-top: 15px;
 }
 
+/* Grid layout styles */
 .c {
     height: auto;
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr; /* Adjusted for a 4-column layout */
+    gap: 20px; /* Added gap between grid items */
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 20px;
 }
 
 .i {
@@ -60,7 +68,7 @@ nav .user {
     border: 0.5px solid rgb(137, 124, 99);
     border-radius: 20px;
     margin-top: 50px;
-    margin-left: 40px;
+    margin-left: 40px; /* Adjusted left margin for better alignment */
     margin-right: 20px;
     margin-bottom: 30px;
     height: auto;
@@ -75,7 +83,7 @@ nav .user {
 
 .i img {
     background-size: contain;
-    margin-left: 75px;
+    margin-left: 75px; /* Adjusted margin for image centering */
     margin-top: 15px;
     border: 1px solid black;
     width: 60%;
@@ -86,8 +94,8 @@ nav .user {
     text-align: center;
     background-color: lightseagreen;
     border: none;
-    margin: 5px 0; 
-    font-size: 16px; 
+    margin: 5px 0;
+    font-size: 16px;
 }
 
 .i button {
@@ -108,7 +116,8 @@ nav .user {
     background-color: rgb(245, 84, 84);
 }
 
-.i label, .text {
+.i label,
+.text {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -135,16 +144,11 @@ nav .user {
     background-color: rgb(217, 213, 213);
 }
 
-
+/* Media Queries */
 
 @media only screen and (max-width: 290px) {
     .c {
-        grid-template-columns: repeat(1, 1fr);
-    }
-
-    .i {
-        background-color: transparent;
-        color: black;
+        grid-template-columns: repeat(1, 1fr); /* Adjusted for single column layout */
     }
 
     nav {
@@ -160,75 +164,59 @@ nav .user {
 
 @media only screen and (min-width: 290px) {
     .c {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .i {
-        background-color: lightcoral;
-        color: black;
+        grid-template-columns: repeat(2, 1fr); /* Adjusted for two column layout */
     }
 
     nav {
-        width: 150%;
+        width: 150%; /* Adjusted width for better responsiveness */
     }
+
     nav img {
-        display: flex;
+        display: flex; /* Ensure nav image displays */
     }
 }
 
 @media only screen and (min-width: 500px) {
     .c {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .i {
-        background-color: transparent;
-        color: black;
+        grid-template-columns: repeat(3, 1fr); /* Adjusted for three column layout */
     }
 
     nav {
-        width: 130%;
+        width: 130%; /* Adjusted width for better responsiveness */
         display: grid;
         grid-template-columns: repeat(8, 1fr);
     }
-    nav img{
-        display: none;
+
+    nav img {
+        display: none; /* Hide nav image for smaller screens */
     }
-    #chi{
+
+    #chi {
         height: 50px;
-        width: 50px;
+        width: 50px; /* Adjusted size of user icon for better display */
     }
 }
 
 @media only screen and (min-width: 600px) {
     .c {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, 1fr); /* Adjusted for three column layout */
     }
 
-    .i {
-        background-color: lightcoral;
-        color: black;
-    }
 
     nav {
-        width: 130%;
+        width: 130%; /* Adjusted width for better responsiveness */
         display: grid;
         grid-template-columns: repeat(8, 1fr);
     }
-    nav img{
-        display: flex;
+
+    nav img {
+        display: flex; /* Ensure nav image displays */
     }
 }
 
 @media only screen and (min-width: 920px) {
     .c {
-        grid-template-columns: repeat(4, 1fr);
-    }
-
-    .i {
-        background-color: transparent;
-        color: black;
-        width: max-content;
+        grid-template-columns: repeat(4, 1fr); /* Adjusted for four column layout */
     }
 
     nav {
@@ -238,21 +226,15 @@ nav .user {
         align-items: center;
         justify-content: space-between;
     }
-    nav img{
-        display: flex;
-    }
 
+    nav img {
+        display: flex; /* Ensure nav image displays */
+    }
 }
 
 @media only screen and (min-width: 1300px) {
     .c {
-        grid-template-columns: repeat(5, 1fr);
-    }
-
-    .i {
-        background-color: lightcoral;
-        color: black;
-        width: max-content;
+        grid-template-columns: repeat(5, 1fr); /* Adjusted for five column layout */
     }
 
     nav {
@@ -262,5 +244,8 @@ nav .user {
         align-items: center;
         justify-content: space-between;
     }
-}
 
+    nav img {
+        display: flex; /* Ensure nav image displays */
+    }
+}
