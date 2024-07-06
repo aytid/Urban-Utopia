@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url("bg.jpg");
+            background-size: cover;
+            background-position: center;
+        }
+        .box {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            width: max-content;
+        }
+        .logo {
+            width: 300px;
+            margin-bottom: -20px;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="box">
+                    <img src="uu-png.png" alt="Urban Utopia Logo" class="logo">
+                    <h5 class="card-header">Create a new account</h5>
+                    <form method="post" onsubmit="check(event)">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="uid">User name</label>
+                                    <input type="text" class="form-control" name="uid" id="uid" placeholder="Enter a new user name" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="mail">Email</label>
+                                    <input type="email" class="form-control" name="mail" id="mail" placeholder="Enter your email" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="pwd1">Password</label>
+                                    <input type="password" class="form-control" name="pwd1" id="pwd1" placeholder="Enter a password" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="pwd2">Confirm Password</label>
+                                    <input type="password" class="form-control" name="pwd2" id="pwd2" placeholder="Enter password again" required>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-outline-success btn-block">Sign Up</button>
+                    </form>
+                    <div class="text-center mt-3">
+                        <p>Already got an account? <a href="logIn.html">Sign in</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function check(event) {
+            event.preventDefault();
+
+            var uid = document.getElementById("uid").value;
+            var a = /^[a-zA-Z]+[a-zA-Z0-9._-]*$/;
+
+            var mail = document.getElementById("mail").value;
+            var b = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+            var p1 = document.getElementById("pwd1").value;
+            var p2 = document.getElementById("pwd2").value;
+            var passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*_\-+=]).{8,}$/;
+
+            if (a.test(uid)) {
+                if (b.test(mail)) {
+                    if (passwordPattern.test(p1)) {
+                        if (p1 === p2) {
+                            var users = JSON.parse(localStorage.getItem("users")) || [];
+                            var res = false;
+
+                            for (var i = 0; i < users.length; i++) {
+                                if (users[i].username === uid || users[i].email === mail) {
+                                    res = true;
+                                    break;
+                                }
+                            }
+
+                            if (!res) {
+                                var newUser = {
+                                    username: uid,
+                                    email: mail,
+                                    password: p1,
+                                    userid: users.length + 8000
+                                };
+                                users.push(newUser);
+
+                                localStorage.setItem("users", JSON.stringify(users));
+
+                                alert("Form submitted successfully! New user added.");
+                                window.location.href = "logIn.html";
+                            } else {
+                                alert("Username or email already exists. Please choose a different one.");
+                            }
+                        } else {
+                            alert("Both passwords should be the same!");
+                        }
+                    } else {
+                        alert("Password should be at least 8 characters long and include at least one digit, one lowercase letter, one uppercase letter, and one special character!");
+                    }
+                } else {
+                    alert("Invalid email format!");
+                }
+            } else {
+                alert("Invalid username format! Only letters, numbers, and ._- characters are allowed.");
+            }
+        }
+    </script>
+</body>
+</html>

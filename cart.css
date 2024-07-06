@@ -1,0 +1,266 @@
+* {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: wheat;
+    margin: 0;
+}
+
+nav {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    background-color: rgb(127, 255, 212);
+    padding: 20px 20px 20px 30px;
+    width: 100%; 
+}
+
+nav img {
+    width: 220px;
+    transition: transform 0.2s ease-in-out;
+}
+
+nav img:hover {
+    transform: scale(1.1);
+}
+
+nav button {
+    width: 100px;
+    padding: 10px;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 10px 5px 10px 15px;
+    border: none;
+    transition: transform 0.2s ease-in-out;
+    background-color: rgb(127, 255, 212);
+}
+
+nav button:hover {
+    transform: scale(1.1);
+}
+
+nav .user {
+    height: 50px;
+    width: 50px;
+    border-radius: 50px;
+    margin-top: 15px;
+}
+
+.c {
+    height: auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.i {
+    background-color: transparent;
+    border: 0.5px solid rgb(137, 124, 99);
+    border-radius: 20px;
+    margin-top: 50px;
+    margin-left: 40px;
+    margin-right: 20px;
+    margin-bottom: 30px;
+    height: auto;
+    max-width: 250px;
+    transition: 0.2s ease-in;
+}
+
+.i:hover {
+    transform: scale(1.08);
+    box-shadow: 2px 2px 15px;
+}
+
+.i img {
+    background-size: contain;
+    margin-left: 75px;
+    margin-top: 15px;
+    border: 1px solid black;
+    width: 60%;
+    height: auto;
+}
+
+.i h3 {
+    text-align: center;
+    background-color: lightseagreen;
+    border: none;
+    margin: 5px 0; 
+    font-size: 16px; 
+}
+
+.i button {
+    font-size: 15px;
+    font-weight: 600;
+    height: 50px;
+    width: 90%;
+    background-color: lightgreen;
+    border-radius: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    border: none;
+}
+
+.i button:hover {
+    background-color: rgb(245, 84, 84);
+}
+
+.i label, .text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.j button {
+    font-size: 15px;
+    font-weight: 600;
+    height: 50px;
+    width: 130px;
+    background-color: white;
+    border: none;
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    z-index: 2;
+    position: sticky;
+    border: 2px solid black;
+    transition: transform 0.2s ease-in-out;
+}
+
+.j button:hover {
+    transform: scale(1.1);
+    background-color: rgb(217, 213, 213);
+}
+
+
+
+@media only screen and (max-width: 290px) {
+    .c {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .i {
+        background-color: transparent;
+        color: black;
+    }
+
+    nav {
+        width: 150%;
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+    }
+
+    nav img {
+        display: none;
+    }
+}
+
+@media only screen and (min-width: 290px) {
+    .c {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .i {
+        background-color: lightcoral;
+        color: black;
+    }
+
+    nav {
+        width: 150%;
+    }
+    nav img {
+        display: flex;
+    }
+}
+
+@media only screen and (min-width: 500px) {
+    .c {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .i {
+        background-color: transparent;
+        color: black;
+    }
+
+    nav {
+        width: 130%;
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+    }
+    nav img{
+        display: none;
+    }
+    #chi{
+        height: 50px;
+        width: 50px;
+    }
+}
+
+@media only screen and (min-width: 600px) {
+    .c {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .i {
+        background-color: lightcoral;
+        color: black;
+    }
+
+    nav {
+        width: 130%;
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+    }
+    nav img{
+        display: flex;
+    }
+}
+
+@media only screen and (min-width: 920px) {
+    .c {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .i {
+        background-color: transparent;
+        color: black;
+        width: max-content;
+    }
+
+    nav {
+        background-color: rgb(127, 255, 212);
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    nav img{
+        display: flex;
+    }
+
+}
+
+@media only screen and (min-width: 1300px) {
+    .c {
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+    .i {
+        background-color: lightcoral;
+        color: black;
+        width: max-content;
+    }
+
+    nav {
+        background-color: rgb(127, 255, 212);
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+

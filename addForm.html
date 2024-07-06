@@ -1,0 +1,91 @@
+<html>
+<head>
+    <title>Add Items</title>
+    <link href="add.css" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <img style="width: 250px;" src="uu-png.png">
+        <button onclick="window.location.href='src.html'">Home</button>
+        <button>Offers</button>
+        <img class="user" onclick="window.location.href='home.html'" src="user.png">
+    </nav>
+    <div class="form">
+        <form onsubmit="add(event)">
+            <h3>Enter the details of Product to add</h3>
+            <label for="name">Name of item</label>
+            <input type="text" id="name" name="name" required>
+            <br>
+            <label for="price">Price of item</label>
+            <input type="text" id="price" name="price" required>
+            <br>
+            <label for="image">Upload an image</label>
+            <input type="file" id="image" name="image" accept="image/*" required>
+            <br>
+            <button type="submit">Add to dashboard</button>
+            <button onclick="window.location.href='src.html';">Go to Home Page</button>
+            <button onclick="window.location.href='home.html';">Sign out</button>
+        </form>
+    </div>
+    <script>
+
+        function getMaxIdFromLocalStorage() {
+            var dashboardItems = JSON.parse(localStorage.getItem("dashboard")) || [];
+            if (dashboardItems.length > 0) {
+                return Math.max(...dashboardItems.map(item => item.id))+1;
+            }
+            return 1000; 
+        }
+
+        var currentItemId = getMaxIdFromLocalStorage();
+
+        function add(event) {
+            event.preventDefault();
+            
+            var name = document.getElementById("name").value;
+            var price = document.getElementById("price").value;
+            var itemId = currentItemId++;
+            var imageInput = document.getElementById("image");
+            
+            if (imageInput.files.length > 0) {
+                var imageFile = imageInput.files[0];
+                saveImage(imageFile, function(imageUrl) {
+                    var newItem = {
+                        "name": name,
+                        "price": price,
+                        "quantity": 0,
+                        "id": itemId,
+                        "imageUrl": imageUrl
+                    };
+
+                    var dashboardItems = JSON.parse(localStorage.getItem("dashboard")) || [];
+                    for (var i = 0; i < dashboardItems.length; i++) {
+                        if (dashboardItems[i].name === name) {
+                            alert("Item already exists with the same name! Try with another name");
+                            window.location.href = "addForm.html";
+                            return;
+                        }   
+                    }
+
+                    dashboardItems.push(newItem);
+                    localStorage.setItem("dashboard", JSON.stringify(dashboardItems));
+                    alert("Item added to dashboard!");
+                    window.location.href = "src.html";
+                });
+            } else {
+                alert("Please select an image");
+            }
+        }
+
+        function saveImage(file, callback) {
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function () {
+                var imageDataUrl = reader.result;
+                localStorage.setItem("uploadedImage", imageDataUrl);
+                callback(imageDataUrl);
+            };
+        }
+    </script>
+</body>
+</html>

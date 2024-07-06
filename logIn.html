@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url("bg.jpg");
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        .box {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            max-width: 400px;
+            width: 100%;
+        }
+        .logo {
+            width: 300px;
+            margin-bottom: -10px;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="box">
+            <img src="uu-png.png" alt="Urban Utopia Logo" class="logo">
+            <p>Kindly Sign In to continue</p>
+            <form method="get" onsubmit="check(event)">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" name="username" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="pwd">Password</label>
+                    <input type="password" class="form-control" name="pwd" id="pwd" required>
+                </div>
+                <button type="submit" class="btn btn-outline-success btn-block">Sign In</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        function check(event) {
+            event.preventDefault();
+
+            var uname = document.getElementById("username").value;
+            var pwd = document.getElementById("pwd").value;
+            var users = JSON.parse(localStorage.getItem("users")) || [];
+            
+            var user = users.find(function (user) {
+                return user.username === uname && user.password === pwd;
+            });
+
+            if (user) {
+                // Store user information in sessionStorage
+                sessionStorage.setItem("username", user.username);
+                sessionStorage.setItem("userid", user.userid);
+
+                // Redirect to src.html
+                window.location.href = "src.html";
+            } else {
+                alert("Please enter correct username and password");
+            }
+        }
+    </script>
+</body>
+</html>

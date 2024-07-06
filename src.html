@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="styles2.css" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <img src="uu-png.png" id="logo">
+        <button style="background-color: rgb(44, 236, 172); border-radius: 40px;">Home</button>
+        <button>Offers</button>
+        <button onclick="showCart()">My Cart</button>
+        <button style="background-image: url('cartCount.png'); background-size: contain; background-repeat: no-repeat; height: 40px; width: 40px; margin-top: 10px; margin-left: 30px;"></button>
+        <button style="background-color: transparent;" id="counter" name="counter">0</button>
+        <button style="width: 130px;" onclick="addItem()">Add item</button>
+        <img style="height: 50px; width: 50px;" onclick="window.location.href='home.html'" src="user2.png">
+    </nav>
+
+    <div>
+        <h2 id="greeting"></h2>
+    </div>
+
+    <div class="c"></div>
+    <div class="c" id="c"></div>
+
+    <script>
+        var userID;
+        var username;
+        document.addEventListener("DOMContentLoaded", function () {
+            username = sessionStorage.getItem('username');
+            userID = sessionStorage.getItem('userid');
+            document.getElementById("greeting").innerHTML = "Hi, " + username + "!";
+
+            show();
+            updateCounter();
+        });
+
+        // main function
+        function show() {
+            var container = document.getElementById("c");
+            container.innerHTML = ""; // Clear the container first
+
+            // Add static items
+            var staticItems = [
+                {id: '800', name: 'Pink Shirt', price: 1100, imageUrl: '1.jpg'},
+                {id: '801', name: 'Blue Shirt', price: 1200, imageUrl: '2.jpg'},
+                {id: '802', name: 'Casual Wear Shirt', price: 900, imageUrl: '8.jpg'},
+                {id: '803', name: 'Party wear Shirt', price: 1400, imageUrl: '4.jpg'},
+            ];
+
+            staticItems.forEach(function (item) {
+                var newItem = create(item, item.id);
+                container.appendChild(newItem);
+            });
+
+            // Add dynamic items
+            var items = JSON.parse(localStorage.getItem("dashboard")) || [];
+            items.forEach(function (item) {
+                var newItem = create(item, item.itemId);
+                container.appendChild(newItem);
+            });
+        }
+
+        function create(item, itemId) {
+            var div = document.createElement("div");
+            div.className = "i";
+            div.id = itemId;
+
+            var itemId = item.id;
+
+            var namam = document.createElement("h3");
+            namam.innerHTML = "<br>" + item.name;
+            namam.id = "text";
+            namam.style = "font-size:20px;font-weight:800;text-align:center;margin-top:5px;margin-bottom:5px";
+
+            var price = document.createElement("h3");
+            price.innerHTML = "₹ " + item.price;
+
+            var inkoti = document.createElement("div");
+            inkoti.style.display = "flex";
+
+            var minus = document.createElement("button");
+            minus.innerHTML = "-";
+            minus.style = "width: 100px";
+            minus.onclick = function () {
+                dec(itemId);
+            };
+
+            var quantitySection = document.createElement("div"); // Container for quantity label and count
+            quantitySection.style.display = "flex";
+            quantitySection.style.alignItems = "center"; // Align items vertically in the container
+
+            var ql = document.createElement("label");
+            ql.innerHTML = "Quantity: ";
+
+            var quantity = document.createElement("text");
+            quantity.id = "countQt_" + itemId;
+            quantity.innerHTML = 1;
+
+            var plus = document.createElement("button");
+            plus.innerHTML = "+";
+            plus.style = "width: 100px";
+            plus.onclick = function () {
+                inc(itemId);
+            };
+
+            var image = document.createElement("img");
+            if (item.hasOwnProperty("imageUrl")) {
+                image.src = item.imageUrl;
+                image.alt = item.name;
+                image.style.width = "150px";
+            } else {
+                console.warn("Item object is missing 'imageUrl' property:", item);
+                image.alt = "No Image";
+            }
+
+            var addButton = document.createElement("button");
+            addButton.innerHTML = "Add to cart";
+            addButton.onclick = function () {
+                addToCart(image.src, item.name, item.price, itemId);
+            };
+
+            var buyButton = document.createElement("button");
+            buyButton.innerHTML = "Buy now";
+            buyButton.onclick = function () {
+                alert("Order placed! Order ID:" + itemId);
+            };
+
+            div.append(image);
+            div.append(namam);
+            div.append(price);
+
+            quantitySection.append(ql);
+            quantitySection.append(quantity);
+
+            inkoti.append(minus);
+            inkoti.append(quantitySection); // Append the quantity section container instead of ql directly
+            inkoti.append(plus);
+
+            div.append(inkoti);
+            div.append(addButton);
+            div.append(buyButton);
+
+            return div;
+        }
+
+        function addToCart(img, itemName, price, itemId) {
+            var quantity = parseInt(document.getElementById("countQt_" + itemId).innerHTML);
+
+            if (quantity > 0) {
+                var cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+                var y = cart.findIndex(item => item.id === itemId);
+
+                if (y !== -1) {
+                    cart[y].quantity += quantity;
+                } else {
+                    cart.push({
+                        "name": itemName,
+                        "price": price,
+                        "quantity": quantity,
+                        "id": itemId,
+                        "userid": userID,
+                        "imageUrl": img
+                    });
+                }
+
+                localStorage.setItem("cart", JSON.stringify(cart));
+                updateCounter();
+                alert("Item added to Cart!");
+            } else {
+                alert("Select at least one item!");
+            }
+        }
+
+        function showCart() {
+            window.location.href = "myCart.html";
+        }
+
+        function addItem() {
+            window.location.href = "addForm.html";
+        }
+
+        function inc(itemId) {
+            var c = document.getElementById("countQt_" + itemId).innerHTML;
+            var d = parseInt(c) + 1;
+            document.getElementById("countQt_" + itemId).innerHTML = d;
+        }
+
+        function dec(itemId) {
+            var c = document.getElementById("countQt_" + itemId).innerHTML;
+            if (parseInt(c) > 0) {
+                var d = parseInt(c) - 1;
+                document.getElementById("countQt_" + itemId).innerHTML = d;
+            }
+        }
+
+        function updateCounter() {
+            var items = JSON.parse(localStorage.getItem("cart")) || [];
+            var totalQuantity = 0;
+
+            items.forEach(function(item){
+                if(item.userid === userID){
+                    totalQuantity += item.quantity;
+                }
+            });
+
+            document.getElementById("c").innerHTML = "";
+            document.getElementById("counter").innerHTML = totalQuantity;
+            show();
+        }
+    </script>
+</body>
+</html>

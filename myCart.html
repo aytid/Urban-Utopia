@@ -1,0 +1,216 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Cart</title>
+    <link href="cart.css" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <img src="uu-png.png">
+        <button onclick="window.location.href='src.html'">Home</button>
+        <button>Offers</button>
+        <button style=" background-color: rgb(44, 236, 172);border-radius: 40px;">Cart</button>
+        <button style="background-image: url('cartCount.png');background-size: contain;background-repeat: no-repeat;height: 40px;width: 40px;margin-top: 25px;margin-left: 30px;"></button>
+        <button style="background-color: transparent;" id="counter" name="counter">0</button>
+        <button onclick="clr()">Clear cart</button>
+        
+        <img class="user" id="chi" onclick="window.location.href='home.html'" src="user2.png">
+    </nav>
+
+    <div>
+        <h2 id="greeting"></h2>
+    </div>
+
+    <div class="c" id="c">
+    </div>
+
+    <script>
+        var userid;  // Declare userid globally
+
+        document.addEventListener("DOMContentLoaded", function () {
+            username=sessionStorage.getItem('username');
+            userid = sessionStorage.getItem('userid');
+            document.getElementById("greeting").innerHTML = "Hi, " + username + "!";
+            show();
+        });
+
+        function show() {
+            var container = document.getElementById("c");
+            container.innerHTML = "";  // Clear existing content
+            var items = JSON.parse(localStorage.getItem("cart")) || [];
+
+            var userItems = items.filter(item => item.userid === userid);
+
+            userItems.forEach(function (item, index) {
+                var newItem = create(item, index);
+                container.appendChild(newItem);
+            });
+
+            updateCounter();
+            worthVarma();
+        }
+
+        function create(item, index) {
+            var div = document.createElement("div");
+            div.className = "i";
+
+            var itemId = index;
+            div.id = "item_" + itemId;
+
+            var namam = document.createElement("h3");
+            namam.innerHTML = "<br>" + item.name;
+            namam.style = "font-size:25px;font-weight:800;text-align:center;padding-top:-10px";
+
+            var price = document.createElement("h3");
+            price.id = "p_" + itemId;
+            price.innerHTML = "₹ " + item.price;
+
+            var cc = document.createElement("div");
+            cc.style.display = "flex";
+
+            var minus = document.createElement("button");
+            minus.innerHTML = "-";
+            minus.style = "width: 75px";
+            minus.onclick = function () {
+                dec(itemId);
+            }
+
+            var ql = document.createElement("label");
+            ql.innerHTML = "Quantity: ";
+
+            var quantity = document.createElement("span");
+            quantity.id = "countQt_" + itemId;
+            quantity.innerHTML = parseInt(item.quantity);
+
+            var plus = document.createElement("button");
+            plus.innerHTML = "+";
+            plus.style = "width: 75px";
+            plus.onclick = function () {
+                inc(itemId);
+            };
+
+            var image = document.createElement("img");
+            if (item.hasOwnProperty("imageUrl")) {
+                image.src = item.imageUrl;
+                image.alt = item.name;
+                image.style.width = "100px";
+            } else {
+                console.warn("Item object is missing 'imageUrl' property:", item);
+                image.alt = "No Image";
+            }
+
+            var remove = document.createElement("button");
+            remove.innerHTML = "Remove item";
+            remove.id = "r_" + itemId;
+            remove.onclick = function () {
+                removeItem(itemId);
+            };
+
+            var buyButton = document.createElement("button");
+            buyButton.innerHTML = "Buy now";
+            buyButton.onclick = function () {
+                alert("Order placed! Item ID: " + item.id);
+            };
+
+            div.appendChild(image);
+            div.appendChild(namam);
+            div.appendChild(price);
+            cc.append(minus);
+            cc.append(ql);
+            cc.append(quantity);
+            cc.append(plus);
+            div.appendChild(cc);
+            div.appendChild(remove);
+            div.appendChild(buyButton);
+
+            return div;
+        }
+
+        function removeItem(index) {
+            var items = JSON.parse(localStorage.getItem("cart")) || [];
+            items.splice(index, 1);
+            localStorage.setItem("cart", JSON.stringify(items));
+            show();
+        }
+
+        function updateCounter() {
+            var items = JSON.parse(localStorage.getItem("cart")) || [];
+            var totalQuantity = 0;
+
+            items.forEach(item => {
+                if (item.userid === userid) {
+                    totalQuantity += item.quantity;
+                }
+            });
+
+            document.getElementById("counter").innerHTML = totalQuantity;
+        }
+
+        function clr() {
+            var items = JSON.parse(localStorage.getItem("cart")) || [];
+
+            var filteredItems = items.filter(item => item.userid !== userid);
+
+            localStorage.setItem("cart", JSON.stringify(filteredItems));
+
+            updateCounter();
+            show();
+            worthVarma();
+        }
+
+        function inc(itemId) {
+            var quantityElement = document.getElementById("countQt_" + itemId);
+            var currentQuantity = parseInt(quantityElement.innerHTML);
+
+            if (currentQuantity >= 0) {
+                var items = JSON.parse(localStorage.getItem("cart")) || [];
+                items[itemId].quantity = currentQuantity + 1;
+                localStorage.setItem("cart", JSON.stringify(items));
+
+                quantityElement.innerHTML = currentQuantity + 1;
+
+                updateCounter();
+                worthVarma();
+            }
+        }
+
+        function dec(itemId) {
+            var quantityElement = document.getElementById("countQt_" + itemId);
+            var currentQuantity = parseInt(quantityElement.innerHTML);
+
+            if (currentQuantity > 0) {
+                var items = JSON.parse(localStorage.getItem("cart")) || [];
+
+                // Check if the item with the given itemId exists in the items array
+                if (items[itemId]) {
+                    items[itemId].quantity = currentQuantity - 1;
+                    localStorage.setItem("cart", JSON.stringify(items));
+
+                    quantityElement.innerHTML = currentQuantity - 1;
+
+                    updateCounter();
+                    worthVarma();
+                } else {
+                    console.error("Item with itemId " + itemId + " not found.");
+                }
+            }
+        }
+
+        function worthVarma() {
+            var worth = 0;
+            var items = JSON.parse(localStorage.getItem("cart")) || [];
+
+            items.forEach(function (item) {
+                if (item.userid === userid) {
+                    worth += item.quantity * item.price;
+                }
+            });
+
+            document.getElementById("worth").innerHTML = "₹ " + worth;
+        }
+    </script>
+    <div class="j">
+        <button id="worth">Cart value: ₹ 0</button>
+    </div>
+</body>
+</html>

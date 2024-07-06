@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urban Utopia</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('bg.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        .home {
+            background-color: rgba(255, 255, 255);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            transition: transform 0.2s ease-in-out; 
+        }
+        .home:hover {
+            transform: scale(1.1);
+        }
+        .home h2 {
+            margin-bottom: 20px;
+        }
+        .welcome-message {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        .logo {
+            max-width: 100%; /* Ensure logo is responsive */
+            height: auto; /* Maintain aspect ratio */
+            margin-bottom: -10px;
+        }
+        .btn-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="home">
+        <img src="uu-png.png" alt="" class="logo">
+        <div class="welcome-message"><span><strong>Urban</strong></span> Edge,<span><strong> Utopian</strong></span> Flair</div>         
+          
+        <div class="row btn-container">
+            <div class="col">
+                <button onclick="logIn()" class="btn btn-outline-success btn-block">Login</button>
+            </div>
+            <div class="col">
+                <button onclick="signUp()" class="btn btn-outline-warning btn-block">Sign Up</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        function logIn() {
+            window.location.href = "logIn.html";
+        }
+        function signUp() {
+            window.location.href = "signUp.html";
+        }
+    </script>
+</body>
+</html>
